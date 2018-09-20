@@ -22,6 +22,17 @@ const path = pathOf(c, 'z', 'y', 'bb');
 const path2 = pathOf(c, 'z', 'y', 'gg'); // error, because no 'gg' field in c.z.y
 ```
 
+## Type only assertion
+
+Use pathOf`N` (where `N` is deep), to pick tuple-type path to field
+
+Eg:
+
+```ts
+let path: pathOf3<typeof c, 'z', 'y', 'bb'>;
+path = pathOf(c, 'z', 'y', 'bb');
+```
+
 ### Limitations
 
-Maximum 10 levels deep.
+Maximum 10 levels deep
