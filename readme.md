@@ -1,3 +1,5 @@
+[![NPM Version](https://badge.fury.io/js/ts-pathof.svg?style=flat)](https://www.npmjs.com/package/ts-pathof)
+
 # ts-pathof
 
 Typesafe path to variable  
