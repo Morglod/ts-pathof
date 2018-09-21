@@ -274,50 +274,15 @@ export type pathOf10
     K10 extends keyof T[K1][K2][K3][K4][K5][K6][K7][K8][K9],
 > = [ K1, K2, K3, K4, K5, K6, K7, K8, K9, K10 ];
 
-type Head<T extends any[]> = T extends [infer U, ...any[]] ? U : never;
-type Tail<T extends any[]> = ((...args: T) => void) extends (head: any, ...tail: infer U) => any ? U : never;
-
-type Shift<A, T extends any[]> = ((head: A, ...args: T) => void) extends (...tail: infer U) => any ? U : never;
-
-type Last<L extends any[], D = never> = {
-    0: D,
-    1: L extends [infer H] ? H : never,
-    2: ((...l: L) => any) extends ((h: any, ...t: infer T) => any) ? Last<T> : D,
-}[L extends [] ? 0 : L extends [any] ? 1 : 2];
-
-type Append<T extends any[], H> =
-    ((h: H, ...t: T) => any) extends ((...l: infer L) => any) ? L : never;
-
-type Reverse<L extends any[], R extends any[] = []> = {
-    0: R,
-    1: ((...l: L) => any) extends ((h: infer H, ...t: infer T) => any) ?
-        Reverse<T, Append<R, H>> :
-        never,
-}[L extends [any, ...any[]] ? 1 : 0];
-
-type Compose<L extends any[], V, R extends any[] = []> = {
-    0: R,
-    1: ((...l: L) => any) extends ((a: infer H, ...t: infer T) => any) ?
-        Compose<T, H, Append<R, (x: V) => H>>
-        : never,
-}[L extends [any, ...any[]] ? 1 : 0];
-
-type PipeFunc<T extends any[], V> =
-    (...f: Reverse<Compose<T, V>>) => ((x: V) => Last<T, V>);
-
-type IfNotExtends<A, B, True, False> = A extends B ? False : True;
-type IfExtends<A, B, True, False> = A extends B ? True : False;
-
-type TypeOfPath<
+function pathof<
     T extends { [x: string]: any },
     Path extends string[],
-    Phead = Head<Path>,
-    Ptail = Tail<Path>,
-> = {
-    0: never,
-    1: Phead extends keyof T ? TypeOfPath<T[Phead], Tail<Path>> : never,
-    2: Phead extends keyof T ? T[Phead] : never,
-}[Ptail extends [any] ? 1 : 2];
-
-const struct = {x: { y: 10 }};
-type asddas = TypeOfPath<typeof struct, ['x', 'y']>;
+>(target: T, path: Path, check: true|'no-check' = true): PathOf<T, Path>|false {
+    if (check) {
+        for (const step of path) {
+            if (!(step in target)) return false as any;
+            target = target[step];
+        }
+    }
+    return path as any;
+}
