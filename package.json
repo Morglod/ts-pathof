@@ -1,7 +1,7 @@
 {
   "name": "ts-pathof",
-  "version": "1.1.0",
-  "description": "typesafe pathof",
+  "version": "1.2.0",
+  "description": "typesafe pathof utils",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "dependencies": {
@@ -9,12 +9,16 @@
   "devDependencies": {
     "typescript": "^3.0.3"
   },
+  "peerDependencies": {
+    "typescript": "^3.0.3"
+  },
   "scripts": {
     "build": "tsc"
   },
   "keywords": [
     "pathof",
-    "typecript"
+    "typecript",
+    "utils"
   ],
   "author": "morglod",
   "license": "MIT",
