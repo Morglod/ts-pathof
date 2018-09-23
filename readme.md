@@ -5,25 +5,25 @@
 Typesafe path to variable  
 Implementation of https://github.com/Microsoft/TypeScript/issues/20423
 
+There is limitations for 2 level deep with type hacks, so no infinit tuples
+
 ## Install & Use
 
 ```
-npm i ts-pathof
+npm i ts-pathof --save-exact
 ```
-
-#### Path as arguments
 
 ```ts
 import { pathOf } from 'ts-pathof';
 
 const c = { z: { y: { bb: 123 }}};
 const path = pathOf(c, 'z', 'y', 'bb');
-path -> [ 'z', 'y', 'bb' ]
 
+// path now is typeof [ 'z', 'y', 'bb' ]
 const path2 = pathOf(c, 'z', 'y', 'gg'); // error, because no 'gg' field in c.z.y
 ```
 
-For `pathOf` there is 10 level deep limitation.
+Maximum 10 levels deep limitation on `pathOf`
 
 #### Path as tuple
 
@@ -31,16 +31,14 @@ For `pathOf` there is 10 level deep limitation.
 import { hasPath } from 'ts-pathof';
 
 const c = { z: { y: { bb: 123 }}};
-const path = hasPath(c, [ 'z', 'y', 'bb' ]);
-path -> [ 'z', 'y', 'bb' ]
-
-const path2 = hasPath(c, [ 'z', 'y', 'gg' ]); // no error
-path2 -> value is false, type is never
+const path = hasPath(c, [ 'z', 'y', 'bb' ]); // ok
+const path2 = hasPath(c, [ 'z', 'y', 'gg' ]); // false & compilation error
 ```
 
-## Path assertion
+## Type only assertion
 
-Use pathOf`N` (where `N` is deep), to pick tuple-type path to field
+Use pathOf`N` (where `N` is deep), to pick tuple-type path to field  
+Maximum 10 levels deep
 
 Eg:
 
@@ -49,33 +47,19 @@ let path: pathOf3<typeof c, 'z', 'y', 'bb'>;
 path = pathOf(c, 'z', 'y', 'bb');
 ```
 
-Use other type-only variant (without limitations on deep), `PathOf`:
+Use other type-only variant (without 20 levels limitation on deep), `PathOf`:
 
 ```ts
 const o = {x: { y: 10 }};
 
-type xy = PathOf<typeof o, ['x', 'y']>;
-xy -> ['x', 'y']
+type xy = PathOf<typeof o, ['x', 'y']>; // ok
 
-type xyz = PathOf<typeof o, ['x', 'y', 'z']>;
-xyz -> never
-```
-
-## Pick type by path
-
-```ts
-const o = {x: { y: 10 }};
-
-type xy = TypeByPath<typeof o, ['x', 'y']>;
-xy -> number
-
-type xyz = TypeByPath<typeof o, ['x', 'y', 'z']>;
-xyz -> never
+type xyz = PathOf<typeof o, ['x', 'y', 'z']>; // error
 ```
 
 ## PS
 
-Check out [typedpark](https://github.com/kgtkr/typepark), [ts-tuple-hacks](https://github.com/Morglod/ts-tuple-hacks) and [Variadic Kinds thread](https://github.com/Microsoft/TypeScript/issues/5453) for more info on advenced tuple utils.  
+Check out [typedpark](https://github.com/kgtkr/typepark), and [Variadic Kinds thread](https://github.com/Microsoft/TypeScript/issues/5453) for more info on advenced tuple utils.  
 Eg picking head or tail of tuple, reverse or join.
 
 ```ts
