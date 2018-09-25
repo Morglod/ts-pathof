@@ -35,6 +35,8 @@ const path = hasPath(c, [ 'z', 'y', 'bb' ]); // ok
 const path2 = hasPath(c, [ 'z', 'y', 'gg' ]); // false & compilation error
 ```
 
+Maximum 20 levels deep limitation on `hasPath`
+
 ## Type only assertion
 
 Use pathOf`N` (where `N` is deep), to pick tuple-type path to field  
@@ -47,7 +49,7 @@ let path: pathOf3<typeof c, 'z', 'y', 'bb'>;
 path = pathOf(c, 'z', 'y', 'bb');
 ```
 
-Use other type-only variant (without 20 levels limitation on deep), `PathOf`:
+Use other type-only variant (with 20 levels limitation on deep), `PathOf`:
 
 ```ts
 const o = {x: { y: 10 }};
