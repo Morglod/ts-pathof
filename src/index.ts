@@ -339,28 +339,49 @@ export function hasPath
     return path;
 }
 
+type _IfExt<A, B, True, False> = A extends B ? True : False;
+type _Obj = { [x: string]: any };
+type _IfObj<A, True, False> = _IfExt<A, _Obj, True, False>;
+type _IsObj<A, True> = _IfExt<A, _Obj, True, never>;
+
 export type Path5<
     T extends { [x: string]: any },
-    K1 = keyof T,
-    K2 = keyof T[keyof T],
-    K3 = keyof T[keyof T][keyof T[keyof T]],
-    K4 = keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]],
-    K5 = keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]],
-> = [ K1?, K2?, K3?, K4?, K5? ];
+    K1 extends _IsObj<T, keyof T> = any, // _IsObj<T, keyof T>,
+    K2 extends _IsObj<T[K1], keyof T[K1]> = any, // _IsObj<T[K1], keyof T[K1]>,
+    K3 extends _IsObj<T[K1][K2], keyof T[K1][K2]> = any, // _IsObj<T[K1][K2], keyof T[K1][K2]>,
+    K4 extends _IsObj<T[K1][K2][K3], keyof T[K1][K2][K3]> = any, // _IsObj<T[K1][K2][K3], keyof T[K1][K2][K3]>,
+    K5 extends _IsObj<T[K1][K2][K3][K4], keyof T[K1][K2][K3][K4]> = any, // _IsObj<T[K1][K2][K3][K4], keyof T[K1][K2][K3][K4]>,
+> =
+T[K1][K2][K3][K4][K5] extends never ?
+T[K1][K2][K3][K4] extends never ?
+T[K1][K2][K3] extends never ?
+T[K1][K2] extends never ?
+T[K1] extends never ? ([]) : 
+[ K1 ] : [ K1, K2 ] : [K1,K2,K3] : [K1,K2,K3,K4] : [K1,K2,K3,K4,K5];
 
-export type Path<
-    T extends { [x: string]: any },
-    K1 = keyof T,
-    K2 = keyof T[keyof T],
-    K3 = keyof T[keyof T][keyof T[keyof T]],
-    K4 = keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]],
-    K5 = keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]],
-    K6 = keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]],
-    K7 = keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]],
-    K8 = keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]]],
-    K9 = keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]]]],
-    K10 = keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]]]]],
-> = [ K1?, K2?, K3?, K4?, K5? , K6?, K7?, K8?, K9?, K10? ];
+export type Path<T> = [
+    T extends never ? never : keyof T,
+    T extends never ? never : keyof T,
+    T extends never ? never : keyof T,
+    T extends never ? never : keyof T,
+    T extends never ? never : keyof T,
+];
+
+// [ K1?, K2?, K3?, K4?, K5? ];
+
+// export type Path<
+//     T extends { [x: string]: any },
+//     K1 = keyof T,
+//     K2 = keyof T[keyof T],
+//     K3 = keyof T[keyof T][keyof T[keyof T]],
+//     K4 = keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]],
+//     K5 = keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]],
+//     K6 = keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]],
+//     K7 = keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]],
+//     K8 = keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]]],
+//     K9 = keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]]]],
+//     K10 = keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]][keyof T[keyof T][keyof T[keyof T]][keyof T[keyof T][keyof T[keyof T]]]]]]]]],
+// > = [ K1?, K2?, K3?, K4?, K5? , K6?, K7?, K8?, K9?, K10? ];
 
 export type TypeByPath<
     T extends { [x: string]: any },
@@ -375,3 +396,42 @@ export type TypeByPath<
     Path_ extends [ string, string, string ] ? T[Path_[0]][Path_[1]][Path_[2]] :
     Path_ extends [ string, string ] ? T[Path_[0]][Path_[1]] :
     Path_ extends [ string ] ? T[Path_[0]] : never;
+
+
+interface NextInt {
+    0: 1
+    1: 2
+    2: 3
+    3: 4
+    4: 5
+    [rest: number]: number
+}
+
+// prettier-ignore
+export type PathType<Obj, Path extends Array<string | number>, Index extends number = 0> = {
+    // Need to use this object indexing pattern to avoid circular reference error.
+    [Key in Index]: Path[Key] extends undefined
+        // Return Obj when we reach the end of the Path.
+        ? Obj
+        // Check if the Key is in the Obj.
+        : Path[Key] extends keyof Obj
+            // If the Value does not contain null.
+            // `T & {}` is a trick to remove undefined from a union type.
+            ? Obj[Path[Key]] extends Obj[Path[Key]] & {}
+                ? PathType<
+                        Obj[Path[Key]],
+                        Path,
+                        Extract<NextInt[Key], number>
+                    >
+                // Remove the undefined from the Value, and add it to the union after.
+                : undefined | PathType<
+                        Obj[Path[Key]] & {},
+                        Path,
+                        Extract<NextInt[Key], number>
+                    >
+            : never
+}[Index];
+
+function get<O, P extends PathOf<O>>(o: O, p: P): PathType<O, P> {
+    
+}

@@ -1,4 +1,4 @@
-import { pathOf, pathOf3, PathOf, Path, TypeByPath } from ".";
+import { pathOf, pathOf3, PathOf, Path, TypeByPath, Path5 } from ".";
 
 const a = { x: 10 };
 const b = { x: a };
@@ -49,18 +49,18 @@ function lookUpC(path: PathInC) {
 
 const c2 = { z: { y: { bb: 123 }}, af: 'hello', ab: 'world' };
 
-type PathInC_limited = Path<typeof c, 'z'|'ab'>;
-function lookUpC2(path: PathInC_limited) {
-    // smth
-    console.log(path);
-}
+// type PathInC_limited = Path<typeof c, 'z'|'ab'>;
+// function lookUpC2(path: PathInC_limited) {
+//     // smth
+//     console.log(path);
+// }
 
 // Error, because path is limited to 'z' or 'ab'
 // lookUpC2([ 'af' ])
 
 function updateObject<
     Obj extends { [x: string]: any },
-    P extends Path<Obj>,
+    P extends Path5<Obj, any, any, any, any, any>,
     NewValue extends TypeByPath<Obj, P>
 >(obj: Obj, p: P, newValue: NewValue): Obj {
     const _ref = obj;
@@ -73,3 +73,8 @@ function updateObject<
 }
 
 updateObject(c, [ 'z', 'y', 'bb' ], 10);
+
+
+const c3 = { z: { y: { bb: 123 }}, af: 'hello', ab: 'world', cc: { zz: { a : 123 }} };
+
+updateObject(c3, [ 'z', 'y', 'bb2' ] as Path5<typeof c3, 'z', 'y', 'bb2'>, 10);
