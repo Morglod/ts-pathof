@@ -1,12 +1,12 @@
 export function pathOf
-<T extends { [x: string]: any },
+<T extends { [x: string]: any; [x: number]: any },
     K1 extends keyof T,
 >(
     root: T,
     key1: K1,
 ): [ K1 ];
 export function pathOf
-<T extends { [x: string]: any },
+<T extends { [x: string]: any; [x: number]: any },
     K1 extends keyof T,
     K2 extends keyof T[K1],
 >(
@@ -15,7 +15,7 @@ export function pathOf
     key2: K2,
 ): [ K1, K2 ];
 export function pathOf
-<T extends { [x: string]: any },
+<T extends { [x: string]: any; [x: number]: any },
     K1 extends keyof T,
     K2 extends keyof T[K1],
     K3 extends keyof T[K1][K2],
@@ -26,7 +26,7 @@ export function pathOf
     key3: K3,
 ): [ K1, K2, K3 ];
 export function pathOf
-<T extends { [x: string]: any },
+<T extends { [x: string]: any; [x: number]: any },
     K1 extends keyof T,
     K2 extends keyof T[K1],
     K3 extends keyof T[K1][K2],
@@ -39,7 +39,7 @@ export function pathOf
     key4: K4,
 ): [ K1, K2, K3, K4 ];
 export function pathOf
-<T extends { [x: string]: any },
+<T extends { [x: string]: any; [x: number]: any },
     K1 extends keyof T,
     K2 extends keyof T[K1],
     K3 extends keyof T[K1][K2],
@@ -54,7 +54,7 @@ export function pathOf
     key5: K5,
 ): [ K1, K2, K3, K4, K5 ];
 export function pathOf
-<T extends { [x: string]: any },
+<T extends { [x: string]: any; [x: number]: any },
     K1 extends keyof T,
     K2 extends keyof T[K1],
     K3 extends keyof T[K1][K2],
@@ -71,7 +71,7 @@ export function pathOf
     key6: K6,
 ): [ K1, K2, K3, K4, K5, K6 ];
 export function pathOf
-<T extends { [x: string]: any },
+<T extends { [x: string]: any; [x: number]: any },
     K1 extends keyof T,
     K2 extends keyof T[K1],
     K3 extends keyof T[K1][K2],
@@ -90,7 +90,7 @@ export function pathOf
     key7: K7,
 ): [ K1, K2, K3, K4, K5, K6, K7 ];
 export function pathOf
-<T extends { [x: string]: any },
+<T extends { [x: string]: any; [x: number]: any },
     K1 extends keyof T,
     K2 extends keyof T[K1],
     K3 extends keyof T[K1][K2],
@@ -111,7 +111,7 @@ export function pathOf
     key8: K8,
 ): [ K1, K2, K3, K4, K5, K6, K7, K8 ];
 export function pathOf
-<T extends { [x: string]: any },
+<T extends { [x: string]: any; [x: number]: any },
     K1 extends keyof T,
     K2 extends keyof T[K1],
     K3 extends keyof T[K1][K2],
@@ -134,7 +134,7 @@ export function pathOf
     key9: K9,
 ): [ K1, K2, K3, K4, K5, K6, K7, K8, K9 ];
 export function pathOf
-<T extends { [x: string]: any },
+<T extends { [x: string]: any; [x: number]: any },
     K1 extends keyof T,
     K2 extends keyof T[K1],
     K3 extends keyof T[K1][K2],
@@ -159,7 +159,7 @@ export function pathOf
     key10: K10,
 ): [ K1, K2, K3, K4, K5, K6, K7, K8, K9, K10 ];
 export function pathOf
-<T extends { [x: string]: any },
+<T extends { [x: string]: any; [x: number]: any },
     K1 extends keyof T,
     K2 extends keyof T[K1],
     K3 extends keyof T[K1][K2],
@@ -188,29 +188,29 @@ export function pathOf
 
 // ---------------------
 export type pathOf1
-<T extends { [x: string]: any },
+<T extends { [x: string]: any; [x: number]: any },
     K1 extends keyof T,
 > = [ K1 ];
 export type pathOf2
-<T extends { [x: string]: any },
+<T extends { [x: string]: any; [x: number]: any },
     K1 extends keyof T,
     K2 extends keyof T[K1],
 > = [ K1, K2 ];
 export type pathOf3
-<T extends { [x: string]: any },
+<T extends { [x: string]: any; [x: number]: any },
     K1 extends keyof T,
     K2 extends keyof T[K1],
     K3 extends keyof T[K1][K2],
 > = [ K1, K2, K3 ];
 export type pathOf4
-<T extends { [x: string]: any },
+<T extends { [x: string]: any; [x: number]: any },
     K1 extends keyof T,
     K2 extends keyof T[K1],
     K3 extends keyof T[K1][K2],
     K4 extends keyof T[K1][K2][K3],
 > = [ K1, K2, K3, K4 ];
 export type pathOf5
-<T extends { [x: string]: any },
+<T extends { [x: string]: any; [x: number]: any },
     K1 extends keyof T,
     K2 extends keyof T[K1],
     K3 extends keyof T[K1][K2],
@@ -218,7 +218,7 @@ export type pathOf5
     K5 extends keyof T[K1][K2][K3][K4],
 > = [ K1, K2, K3, K4, K5 ];
 export type pathOf6
-<T extends { [x: string]: any },
+<T extends { [x: string]: any; [x: number]: any },
     K1 extends keyof T,
     K2 extends keyof T[K1],
     K3 extends keyof T[K1][K2],
@@ -227,7 +227,7 @@ export type pathOf6
     K6 extends keyof T[K1][K2][K3][K4][K5],
 > = [ K1, K2, K3, K4, K5, K6 ];
 export type pathOf7
-<T extends { [x: string]: any },
+<T extends { [x: string]: any; [x: number]: any },
     K1 extends keyof T,
     K2 extends keyof T[K1],
     K3 extends keyof T[K1][K2],
@@ -237,7 +237,7 @@ export type pathOf7
     K7 extends keyof T[K1][K2][K3][K4][K5][K6],
 > = [ K1, K2, K3, K4, K5, K6, K7 ];
 export type pathOf8
-<T extends { [x: string]: any },
+<T extends { [x: string]: any; [x: number]: any },
     K1 extends keyof T,
     K2 extends keyof T[K1],
     K3 extends keyof T[K1][K2],
@@ -248,7 +248,7 @@ export type pathOf8
     K8 extends keyof T[K1][K2][K3][K4][K5][K6][K7],
 > = [ K1, K2, K3, K4, K5, K6, K7, K8 ];
 export type pathOf9
-<T extends { [x: string]: any },
+<T extends { [x: string]: any; [x: number]: any },
     K1 extends keyof T,
     K2 extends keyof T[K1],
     K3 extends keyof T[K1][K2],
@@ -261,7 +261,7 @@ export type pathOf9
 > = [ K1, K2, K3, K4, K5, K6, K7, K8, K9 ];
 
 export type pathOf10
-<T extends { [x: string]: any },
+<T extends { [x: string]: any; [x: number]: any },
     K1 extends keyof T,
     K2 extends keyof T[K1],
     K3 extends keyof T[K1][K2],
@@ -277,7 +277,7 @@ export type pathOf10
 //-------------------------
 
 export type PathOf
-<T extends { [x: string]: any },
+<T extends { [x: string]: any; [x: number]: any },
     Path extends [ K1?, K2?, K3?, K4?, K5?, K6?, K7?, K8?, K9?, K10?, K11?, K12?, K13?, K14?, K15?, K16?, K17?, K18?, K19?, K20? ],
     K1 extends keyof T,
     K2 extends keyof T[K1],
@@ -302,7 +302,7 @@ export type PathOf
 > = Path;
 
 export function hasPath
-<T extends { [x: string]: any },
+<T extends { [x: string]: any; [x: number]: any },
     Path extends [ K1?, K2?, K3?, K4?, K5?, K6?, K7?, K8?, K9?, K10?, K11?, K12?, K13?, K14?, K15?, K16?, K17?, K18?, K19?, K20? ],
     K1 extends keyof T,
     K2 extends keyof T[K1],
