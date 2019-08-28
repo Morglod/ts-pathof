@@ -183,7 +183,7 @@ export function pathOf
     key9?: K9,
     key10?: K10,
 ) {
-    return [ key1, key2, key3, key4, key5, key6, key7, key8, key9, key10 ].filter(Boolean);
+    return [ key1, key2, key3, key4, key5, key6, key7, key8, key9, key10 ].filter(e => e !== undefined);
 }
 
 // ---------------------
@@ -276,7 +276,7 @@ export type pathOf10
 
 //-------------------------
 
-export type PathOf
+/*export type PathOf
 <T extends { [x: string]: any; [x: number]: any },
     Path extends [ K1?, K2?, K3?, K4?, K5?, K6?, K7?, K8?, K9?, K10?, K11?, K12?, K13?, K14?, K15?, K16?, K17?, K18?, K19?, K20? ],
     K1 extends keyof T,
@@ -337,4 +337,4 @@ export function hasPath
         }
     }
     return path;
-}
+}*/

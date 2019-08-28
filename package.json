@@ -12,7 +12,8 @@
     "typescript": "^3.4.3"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "tsc -p tsconfig.test.json && node test/test.js"
   },
   "keywords": [
     "pathof",
