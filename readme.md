@@ -25,6 +25,13 @@ const path2 = pathOf(c, 'z', 'y', 'gg'); // error, because no 'gg' field in c.z.
 
 Maximum 10 levels deep limitation on `pathOf`
 
+#### Path with array
+
+```ts
+const d = {x: [{b: 123}]};
+const r4 = pathOf(d, 'x', 0, 'b');
+```
+
 #### Path as tuple
 
 ```ts
