@@ -23,12 +23,12 @@ const path = pathOf(c, 'z', 'y', 'bb');
 const path2 = pathOf(c, 'z', 'y', 'gg'); // error, because no 'gg' field in c.z.y
 ```
 
-Maximum 10 levels deep limitation on `pathOf`
+Maximum 10 levels deep limitation on `pathOf` & `hasPath`
 
 #### Path with array
 
 ```ts
-const d = {x: [{b: 123}]};
+const d = {x: [{b: 123}] as const};
 const r4 = pathOf(d, 'x', 0, 'b');
 ```
 
@@ -38,11 +38,9 @@ const r4 = pathOf(d, 'x', 0, 'b');
 import { hasPath } from 'ts-pathof';
 
 const c = { z: { y: { bb: 123 }}};
-const path = hasPath(c, [ 'z', 'y', 'bb' ]); // ok
-const path2 = hasPath(c, [ 'z', 'y', 'gg' ]); // false & compilation error
+const path = hasPath(c, 'z', 'y', 'bb' ); // ok
+const path2 = hasPath(c, 'z', 'y', 'gg' ); // false & compilation error
 ```
-
-Maximum 20 levels deep limitation on `hasPath`
 
 ## Type only assertion
 
@@ -54,16 +52,6 @@ Eg:
 ```ts
 let path: pathOf3<typeof c, 'z', 'y', 'bb'>;
 path = pathOf(c, 'z', 'y', 'bb');
-```
-
-Use other type-only variant (with 20 levels limitation on deep), `PathOf`:
-
-```ts
-const o = {x: { y: 10 }};
-
-type xy = PathOf<typeof o, ['x', 'y']>; // ok
-
-type xyz = PathOf<typeof o, ['x', 'y', 'z']>; // error
 ```
 
 ## PS
