@@ -3,7 +3,7 @@
     "./src"
   ],
   "exclude": [
-    "./src/example.ts"
+    "./src/test.ts"
   ],
   "compilerOptions": {
     /* Basic Options */
